@@ -4,4 +4,4 @@ const employeesRoute = require("./routes/employees");
 
 app.use("/api", employeesRoute);
 
-module.exports = app;
+module.exports = (req, res) => app(req, res);
