@@ -51998,6 +51998,58 @@ const employees = [
     ],
     "eligible": true,
     "status": "active"
+  },
+  {
+    "requestDateTime": "2025-05-04T19:49:40Z",
+    "requestTrackingId": "f80ddf73-3173-4caf-b869-7afe026b3fb4",
+    "createdAt": "2024-12-17T00:00:00Z",
+    "updatedAt": "2025-04-20T00:00:00Z",
+    "email": "john.doe1000@nwc.com.sa",
+    "prefix": "Mr.",
+    "firstName": "John1000",
+    "lastName": "Doe1000",
+    "jobTitle": "IT Manager",
+    "country": "Saudi Arabia",
+    "emails": [
+      {
+        "type": "work",
+        "value": "john.doe1000@nwc.com.sa"
+      }
+    ],
+    "phones": [
+      {
+        "type": "work",
+        "dialCode": "+966",
+        "value": "542209474"
+      },
+      {
+        "type": "home",
+        "dialCode": "+966",
+        "value": "1699454082"
+      }
+    ],
+    "socials": [
+      {
+        "type": "work",
+        "value": "https://facebook.com"
+      },
+      {
+        "type": "custom",
+        "value": "https://google.com"
+      }
+    ],
+    "addresses": [
+      {
+        "type": "home",
+        "value": "Street 11 near Paradise Grammar School"
+      },
+      {
+        "type": "work",
+        "value": "Second Address"
+      }
+    ],
+    "eligible": true,
+    "status": "active"
   }
 ];
 module.exports = employees;
