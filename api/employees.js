@@ -1,9 +1,11 @@
 const employees = require("../employees.1000");
 
 module.exports = (req, res) => {
-  let page = parseInt(req.query.page) || 1;
-  let limit = parseInt(req.query.limit) || 50;
-  const updatedSince = req.query.updated_since;
+  const { query } = req;
+
+  let page = parseInt(query.page) || 1;
+  let limit = parseInt(query.limit) || 50;
+  const updatedSince = query.updated_since;
 
   let filteredEmployees = employees;
 
@@ -16,5 +18,7 @@ module.exports = (req, res) => {
   const end = start + limit;
 
   const paginatedEmployees = filteredEmployees.slice(start, end);
-  res.status(200).json(paginatedEmployees);
+
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).end(JSON.stringify(paginatedEmployees));
 };
