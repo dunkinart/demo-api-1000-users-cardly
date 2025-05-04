@@ -1,7 +1,8 @@
 const employees = require("../employees.1000");
 
 module.exports = (req, res) => {
-  const { query } = req;
+  const url = new URL(req.url, `http://${req.headers.host}`);
+  const query = Object.fromEntries(url.searchParams.entries());
 
   let page = parseInt(query.page) || 1;
   let limit = parseInt(query.limit) || 50;
@@ -16,7 +17,6 @@ module.exports = (req, res) => {
 
   const start = (page - 1) * limit;
   const end = start + limit;
-
   const paginatedEmployees = filteredEmployees.slice(start, end);
 
   res.setHeader("Content-Type", "application/json");
