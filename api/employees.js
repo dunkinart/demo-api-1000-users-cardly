@@ -8,21 +8,21 @@ module.exports = (req, res) => {
     let page = parseInt(query.page) || 1;
     let limit = parseInt(query.limit) || 100;
     const updatedSince = query.updated_since;
-    const mode = query.mode || "after"; // 'on' or 'after'
 
     let filtered = employees;
 
     if (updatedSince) {
       const sinceDate = new Date(updatedSince);
-      if (!isNaN(sinceDate.getTime())) {
-        filtered = filtered.filter(emp => {
-          const empDate = new Date(emp.updatedAt).toISOString().split("T")[0];
-          const filterDate = sinceDate.toISOString().split("T")[0];
 
-          return mode === "on"
-            ? empDate === filterDate
-            : new Date(emp.updatedAt) > sinceDate;
+      // STRICT check
+      if (!isNaN(sinceDate.getTime())) {
+        filtered = filtered.filter((emp) => {
+          const empDate = new Date(emp.updatedAt);
+          return empDate > sinceDate;
         });
+      } else {
+        console.warn("Invalid updated_since date:", updatedSince);
+        return res.status(400).json({ error: "Invalid updated_since format" });
       }
     }
 
