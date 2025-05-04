@@ -5,34 +5,39 @@ module.exports = (req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const query = Object.fromEntries(url.searchParams.entries());
 
-    let page = parseInt(query.page) || 1;
-    let limit = parseInt(query.limit) || 100;
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 100;
     const updatedSince = query.updated_since;
 
+    // 1. Filter logic
     let filtered = employees;
 
     if (updatedSince) {
       const filterDate = new Date(updatedSince).toISOString().split("T")[0];
-      filtered = filtered.filter((emp) => {
+
+      filtered = employees.filter((emp) => {
         const empDate = new Date(emp.updatedAt).toISOString().split("T")[0];
         return empDate === filterDate;
       });
     }
 
+    // 2. Pagination logic
     const total = filtered.length;
-
     const start = (page - 1) * limit;
     const end = start + limit;
     const paginated = filtered.slice(start, end);
 
+    // 3. Respond
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({
-      total,
-      page,
-      limit,
-      data: paginated
-    }));
+    res.end(
+      JSON.stringify({
+        total,
+        page,
+        limit,
+        data: paginated,
+      })
+    );
   } catch (error) {
     console.error("Serverless error:", error);
     res.statusCode = 500;
