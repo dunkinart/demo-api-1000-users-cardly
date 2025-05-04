@@ -13,13 +13,13 @@ module.exports = (req, res) => {
 
     if (updatedSince) {
       const filterDate = new Date(updatedSince).toISOString().split("T")[0];
-    
       filtered = filtered.filter((emp) => {
         const empDate = new Date(emp.updatedAt).toISOString().split("T")[0];
         return empDate === filterDate;
       });
     }
-    
+
+    const total = filtered.length;
 
     const start = (page - 1) * limit;
     const end = start + limit;
@@ -28,7 +28,7 @@ module.exports = (req, res) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({
-      total: filtered.length,
+      total,
       page,
       limit,
       data: paginated
