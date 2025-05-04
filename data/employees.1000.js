@@ -1,4 +1,4 @@
-module.exports = [
+const employees = [
   {
     "requestDateTime": "2025-05-04T00:00:00Z",
     "requestTrackingId": "67677b53-3fd4-4d97-96a9-ef7a8d564d4b",
@@ -51999,4 +51999,6 @@ module.exports = [
     "eligible": false,
     "status": "active"
   }
-]
+];
+
+module.exports = employees;
