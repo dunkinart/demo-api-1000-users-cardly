@@ -12,19 +12,14 @@ module.exports = (req, res) => {
     let filtered = employees;
 
     if (updatedSince) {
-      const sinceDate = new Date(updatedSince);
-
-      // STRICT check
-      if (!isNaN(sinceDate.getTime())) {
-        filtered = filtered.filter((emp) => {
-          const empDate = new Date(emp.updatedAt);
-          return empDate > sinceDate;
-        });
-      } else {
-        console.warn("Invalid updated_since date:", updatedSince);
-        return res.status(400).json({ error: "Invalid updated_since format" });
-      }
+      const filterDate = new Date(updatedSince).toISOString().split("T")[0];
+    
+      filtered = filtered.filter((emp) => {
+        const empDate = new Date(emp.updatedAt).toISOString().split("T")[0];
+        return empDate === filterDate;
+      });
     }
+    
 
     const start = (page - 1) * limit;
     const end = start + limit;
