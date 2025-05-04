@@ -8,13 +8,21 @@ module.exports = (req, res) => {
     let page = parseInt(query.page) || 1;
     let limit = parseInt(query.limit) || 100;
     const updatedSince = query.updated_since;
+    const mode = query.mode || "after"; // 'on' or 'after'
 
     let filtered = employees;
 
     if (updatedSince) {
       const sinceDate = new Date(updatedSince);
       if (!isNaN(sinceDate.getTime())) {
-        filtered = filtered.filter((emp) => new Date(emp.updatedAt) > sinceDate);
+        filtered = filtered.filter(emp => {
+          const empDate = new Date(emp.updatedAt).toISOString().split("T")[0];
+          const filterDate = sinceDate.toISOString().split("T")[0];
+
+          return mode === "on"
+            ? empDate === filterDate
+            : new Date(emp.updatedAt) > sinceDate;
+        });
       }
     }
 
