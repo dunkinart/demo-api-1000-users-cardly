@@ -14,7 +14,6 @@ module.exports = (req, res) => {
 
     if (updatedSince) {
       const filterDate = new Date(updatedSince).toISOString().split("T")[0];
-
       filtered = employees.filter((emp) => {
         const empDate = new Date(emp.updatedAt).toISOString().split("T")[0];
         return empDate === filterDate;
@@ -27,23 +26,21 @@ module.exports = (req, res) => {
     const end = start + limit;
     const paginated = filtered.slice(start, end);
 
-    // 3. Respond
+    // 3. Clean up data (remove unwanted fields)
+    const users = paginated.map(({ requestDateTime, requestTrackingId, ...rest }) => rest);
+
+    // 4. Generate metadata
+    const requestDateTime = new Date().toISOString();
+    const requestTrackingId = require("crypto").randomUUID();
+
+    // 5. Respond
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
-    const cleanData = paginated.map(({ requestDateTime, requestTrackingId, ...rest }) => rest);
-
     res.end(
       JSON.stringify({
-        requestDateTime: "2025-05-07T08:43:11.082695Z",
-        requestTrackingId: "9be1324f-d8d6-4c26-8c71-b84112f11ed4",
-        total,
-        page,
-        limit,
-        data: cleanData,
-        total,
-        page,
-        limit,
-        data: paginated,
+        requestDateTime,
+        requestTrackingId,
+        users
       })
     );
   } catch (error) {
