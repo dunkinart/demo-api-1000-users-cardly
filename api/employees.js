@@ -30,8 +30,16 @@ module.exports = (req, res) => {
     // 3. Respond
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
+    const cleanData = paginated.map(({ requestDateTime, requestTrackingId, ...rest }) => rest);
+
     res.end(
       JSON.stringify({
+        requestDateTime: "2025-05-07T08:43:11.082695Z",
+        requestTrackingId: "9be1324f-d8d6-4c26-8c71-b84112f11ed4",
+        total,
+        page,
+        limit,
+        data: cleanData,
         total,
         page,
         limit,
