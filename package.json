@@ -1,0 +1,16 @@
+{
+    "name": "vercel-api-employees",
+    "version": "1.0.0",
+    "type": "commonjs",
+    "scripts": {
+      "dev": "vercel dev",
+      "start": "node api/employees.js"
+    },
+    "dependencies": {
+      "uuid": "^9.0.0"
+    },
+    "engines": {
+      "node": ">=14"
+    }
+  }
+  
